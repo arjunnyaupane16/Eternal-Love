@@ -64,7 +64,7 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <a href="#" className="block group">
               <span className="font-display text-2xl md:text-3xl font-light tracking-[0.4em] text-white group-hover:text-[#8B1538] transition-colors duration-500">
-                EV
+                EL
               </span>
             </a>
           </div>
