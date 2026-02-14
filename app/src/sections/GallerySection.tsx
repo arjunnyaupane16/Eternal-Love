@@ -43,12 +43,12 @@ export default function GallerySection({ id, title, images }: GallerySectionProp
         gsap.fromTo(
           titleEl,
           { opacity: 0, y: 60, skewY: 2 },
-          { 
-            opacity: 1, 
-            y: 0, 
+          {
+            opacity: 1,
+            y: 0,
             skewY: 0,
-            duration: 1.2, 
-            ease: 'power3.out' 
+            duration: 1.2,
+            ease: 'power3.out'
           }
         );
       },
@@ -81,15 +81,14 @@ export default function GallerySection({ id, title, images }: GallerySectionProp
     });
     triggers.push(imagesTrigger);
 
-    // Selective zoom animations based on zoomEffect type
+    // Selective zoom animations based on zoomEffect type (scroll based)
     images.forEach((image, index) => {
       const imgEl = imageInnerElements[index];
       const containerEl = imageElements[index];
-      
+
       if (!imgEl || !containerEl) return;
 
       if (image.zoomEffect === 'ken-burns') {
-        // Ken Burns effect - slow zoom and pan
         gsap.fromTo(
           imgEl,
           { scale: 1.15, x: '-5%' },
@@ -103,7 +102,6 @@ export default function GallerySection({ id, title, images }: GallerySectionProp
           }
         );
       } else if (image.zoomEffect === 'slow-zoom') {
-        // Slow zoom in on scroll
         const zoomTrigger = ScrollTrigger.create({
           trigger: containerEl,
           start: 'top bottom',
@@ -120,7 +118,6 @@ export default function GallerySection({ id, title, images }: GallerySectionProp
         });
         triggers.push(zoomTrigger);
       } else if (image.zoomEffect === 'parallax-zoom') {
-        // Parallax with subtle zoom
         const parallaxTrigger = ScrollTrigger.create({
           trigger: containerEl,
           start: 'top bottom',
@@ -170,45 +167,65 @@ export default function GallerySection({ id, title, images }: GallerySectionProp
             <div
               key={index}
               ref={(el) => { imageRefs.current[index] = el; }}
-              className={`relative overflow-hidden group cursor-pointer opacity-0 ${
-                image.span === 'large'
+              className={`relative overflow-hidden cursor-pointer group opacity-0 ${image.span === 'large'
                   ? 'md:col-span-2 lg:col-span-2'
                   : image.span === 'medium'
-                  ? 'md:col-span-1 lg:col-span-1'
-                  : ''
-              }`}
+                    ? 'md:col-span-1 lg:col-span-1'
+                    : ''
+                }`}
+              onMouseEnter={() => {
+                const img = imageInnerRefs.current[index];
+                if (img) {
+                  gsap.to(img, {
+                    scale: 1.1,
+                    duration: 1.5,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                  });
+                }
+              }}
+              onMouseLeave={() => {
+                const img = imageInnerRefs.current[index];
+                if (img) {
+                  gsap.to(img, {
+                    scale: 1,
+                    duration: 1.2,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                  });
+                }
+              }}
             >
               <div
-                className={`relative overflow-hidden ${
-                  image.span === 'large'
+                className={`relative overflow-hidden ${image.span === 'large'
                     ? 'aspect-[21/9]'
                     : image.span === 'medium'
-                    ? 'aspect-[4/3]'
-                    : 'aspect-square'
-                }`}
+                      ? 'aspect-[4/3]'
+                      : 'aspect-square'
+                  }`}
               >
                 <img
                   ref={(el) => { imageInnerRefs.current[index] = el; }}
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-full object-cover transition-all duration-700"
+                  className="w-full h-full object-cover"
                   style={{ willChange: 'transform' }}
                 />
-                
+
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 transition-opacity duration-500 hover:opacity-40" />
+
                 {/* Hover Overlay with text */}
-                <div className="absolute inset-0 flex items-end p-6">
-                  <div className="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                <div className="absolute inset-0 flex items-end p-6 pointer-events-none">
+                  <div className="transform translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
                     <span className="label-text text-white/90 tracking-[0.2em]">{image.alt}</span>
-                    <div className="w-8 h-[1px] bg-white/50 mt-2 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-100" />
+                    <div className="w-8 h-[1px] bg-white/50 mt-2 transform scale-x-0 transition-transform duration-500 delay-100 group-hover:scale-x-100" />
                   </div>
                 </div>
 
                 {/* Corner accent */}
-                <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-white/0 group-hover:border-white/30 transition-all duration-500" />
-                <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-white/0 group-hover:border-white/30 transition-all duration-500" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-white/0 transition-all duration-500 group-hover:border-white/30" />
+                <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-white/0 transition-all duration-500 group-hover:border-white/30" />
               </div>
             </div>
           ))}

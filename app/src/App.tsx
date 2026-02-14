@@ -15,7 +15,7 @@ import JourneyPage from './pages/JourneyPage';
 import MomentsPage from './pages/MomentsPage';
 import PromisesPage from './pages/PromisesPage';
 import ForeverPage from './pages/ForeverPage';
-import { useSmoothScroll } from './hooks/useScrollToTop';
+import SmoothScroll from './components/SmoothScroll';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -98,25 +98,25 @@ function HomePage() {
 }
 
 function App() {
-  useSmoothScroll();
-
   useEffect(() => {
     ScrollTrigger.refresh();
   }, []);
 
   return (
     <div className="relative min-h-screen bg-black text-white">
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/gallery" element={<FullGalleryPage />} />
-          <Route path="/beginning" element={<BeginningPage />} />
-          <Route path="/journey" element={<JourneyPage />} />
-          <Route path="/moments" element={<MomentsPage />} />
-          <Route path="/promises" element={<PromisesPage />} />
-          <Route path="/forever" element={<ForeverPage />} />
-        </Route>
-      </Routes>
+      <SmoothScroll>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/gallery" element={<FullGalleryPage />} />
+            <Route path="/beginning" element={<BeginningPage />} />
+            <Route path="/journey" element={<JourneyPage />} />
+            <Route path="/moments" element={<MomentsPage />} />
+            <Route path="/promises" element={<PromisesPage />} />
+            <Route path="/forever" element={<ForeverPage />} />
+          </Route>
+        </Routes>
+      </SmoothScroll>
     </div>
   );
 }

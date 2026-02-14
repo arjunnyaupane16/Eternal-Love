@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, Search, X } from 'lucide-react';
+import Magnetic from './Magnetic';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -35,24 +36,26 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
     >
       <div className="h-20 px-6 md:px-12 flex items-center justify-between">
         {/* MENU Button */}
-        <button
-          onClick={onMenuClick}
-          className="flex items-center gap-3 group relative"
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          <div className="relative w-6 h-6 flex items-center justify-center">
-            {isMenuOpen ? (
-              <X className="w-5 h-5 text-white transition-all duration-300 group-hover:rotate-90" />
-            ) : (
-              <Menu className="w-5 h-5 text-white transition-all duration-300 group-hover:scale-110" />
-            )}
-          </div>
-          <span className="label-text text-white hidden sm:block tracking-[0.2em]">
-            {isMenuOpen ? 'CLOSE' : 'MENU'}
-          </span>
-          {/* Hover underline */}
-          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
-        </button>
+        <Magnetic>
+          <button
+            onClick={onMenuClick}
+            className="flex items-center gap-3 group relative cursor-pointer"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            <div className="relative w-6 h-6 flex items-center justify-center">
+              {isMenuOpen ? (
+                <X className="w-5 h-5 text-white transition-all duration-300 group-hover:rotate-90" />
+              ) : (
+                <Menu className="w-5 h-5 text-white transition-all duration-300 group-hover:scale-110" />
+              )}
+            </div>
+            <span className="label-text text-white hidden sm:block tracking-[0.2em]">
+              {isMenuOpen ? 'CLOSE' : 'MENU'}
+            </span>
+            {/* Hover underline */}
+            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
+          </button>
+        </Magnetic>
 
         {/* Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -64,12 +67,14 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
         </div>
 
         {/* Right Side - Search/CTA */}
-        <button className="flex items-center gap-3 group relative">
-          <Search className="w-4 h-4 text-white transition-all duration-300 group-hover:scale-110" />
-          <span className="label-text text-white hidden md:block tracking-[0.2em]">FIND HER HEART</span>
-          {/* Hover underline */}
-          <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
-        </button>
+        <Magnetic>
+          <button className="flex items-center gap-3 group relative cursor-pointer">
+            <Search className="w-4 h-4 text-white transition-all duration-300 group-hover:scale-110" />
+            <span className="label-text text-white hidden md:block tracking-[0.2em]">FIND HER HEART</span>
+            {/* Hover underline */}
+            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
+          </button>
+        </Magnetic>
       </div>
 
       {/* Sub Navigation - Only visible when scrolled */}

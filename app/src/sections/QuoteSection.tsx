@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TextReveal from '../components/TextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,20 +22,18 @@ export default function QuoteSection({
 }: QuoteSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const quoteRef = useRef<HTMLQuoteElement>(null);
-  const quoteTextRef = useRef<HTMLParagraphElement>(null);
+  // quoteTextRef is no longer needed as TextReveal handles it internally
   const authorRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const quoteMarkRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const quoteEl = quoteRef.current;
-    const quoteTextEl = quoteTextRef.current;
     const authorEl = authorRef.current;
     const imageEl = imageRef.current;
     const quoteMarkEl = quoteMarkRef.current;
 
-    if (!section || !quoteEl || !authorEl || !imageEl || !quoteTextEl) return;
+    if (!section || !authorEl || !imageEl) return;
 
     const triggers: ScrollTrigger[] = [];
 
@@ -76,26 +75,7 @@ export default function QuoteSection({
     });
     triggers.push(quoteMarkTrigger);
 
-    // Quote text reveal - word by word feel
-    const quoteTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 70%',
-      onEnter: () => {
-        gsap.fromTo(
-          quoteTextEl,
-          { opacity: 0, y: 50, filter: 'blur(10px)' },
-          {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 1.5,
-            ease: 'power3.out'
-          }
-        );
-      },
-      once: true,
-    });
-    triggers.push(quoteTrigger);
+    // TextReveal handles the quote animation now, so we removed the manual quoteTrigger
 
     // Author reveal
     const authorTrigger = ScrollTrigger.create({
@@ -109,7 +89,7 @@ export default function QuoteSection({
             opacity: 1,
             y: 0,
             duration: 1,
-            delay: 0.5,
+            delay: 1.5, // Delayed to come after the text reveal
             ease: 'power3.out'
           }
         );
@@ -151,12 +131,14 @@ export default function QuoteSection({
       {/* Content */}
       <div className="relative z-10 px-6 md:px-12 lg:px-24 py-24 max-w-5xl mx-auto text-center">
         <blockquote ref={quoteRef}>
-          <p
-            ref={quoteTextRef}
-            className="font-display text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed text-white/90 italic opacity-0"
+          <TextReveal
+            as="p"
+            className="font-display text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed text-white/90 italic"
+            delay={0.2}
+            stagger={0.03}
           >
             {quote}
-          </p>
+          </TextReveal>
         </blockquote>
 
         <div ref={authorRef} className="mt-16 opacity-0">

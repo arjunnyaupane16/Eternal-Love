@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import Magnetic from '../components/Magnetic';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -138,16 +139,20 @@ export default function BeginningPage() {
                 </div>
             </section>
 
+
             {/* Navigation Footer */}
-            <section className="py-24 border-t border-white/10 text-center">
-                <Link to="/" className="inline-block px-12 py-4 border border-white/30 hover:bg-white hover:text-black transition-all duration-500 tracking-[0.2em] font-light uppercase text-sm mb-4">
-                    Back to Home
-                </Link>
-                <div>
-                    <Link to="/journey" className="text-rose-400 hover:text-rose-300 transition-colors tracking-widest uppercase text-xs">
+            <section className="py-24 border-t border-white/10 text-center flex flex-col items-center justify-center gap-8">
+                <Magnetic>
+                    <Link to="/" className="inline-block px-12 py-4 border border-white/30 hover:bg-white hover:text-black transition-all duration-500 tracking-[0.2em] font-light uppercase text-sm">
+                        Back to Home
+                    </Link>
+                </Magnetic>
+
+                <Magnetic amount={0.2}>
+                    <Link to="/journey" className="inline-block text-rose-400 hover:text-rose-300 transition-colors tracking-widest uppercase text-xs p-4">
                         Next Chapter: The Journey →
                     </Link>
-                </div>
+                </Magnetic>
             </section>
         </div>
     );

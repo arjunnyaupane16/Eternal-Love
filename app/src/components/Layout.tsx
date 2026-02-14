@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import PageTransition from './PageTransition';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 
 export default function Layout() {
@@ -23,7 +24,9 @@ export default function Layout() {
             <Sidebar isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
             <main>
-                <Outlet />
+                <PageTransition>
+                    <Outlet />
+                </PageTransition>
             </main>
 
             <Footer />
