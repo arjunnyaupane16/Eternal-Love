@@ -279,8 +279,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Footer */}
           <div className="mt-auto pt-10">
             <div className="flex items-center gap-3">
-              <span className="font-display text-2xl font-light tracking-[0.3em] text-white/40">
-                EB
+              <span className="font-display text-2xl font-light tracking-[0.3em] text-[#6B0F1A]/60">
+                EL
               </span>
               <span className="w-[1px] h-4 bg-white/20" />
               <p className="text-xs text-white/30 tracking-wider">

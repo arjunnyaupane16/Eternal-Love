@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Routes, Route } from 'react-router-dom';
@@ -16,6 +16,7 @@ import MomentsPage from './pages/MomentsPage';
 import PromisesPage from './pages/PromisesPage';
 import ForeverPage from './pages/ForeverPage';
 import SmoothScroll from './components/SmoothScroll';
+import Preloader from './components/Preloader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,10 +64,10 @@ const galleryImages = [
   { src: '/couple-beach.jpg', alt: 'Together', span: 'large' as const, zoomEffect: 'parallax-zoom' as const },
 ];
 
-function HomePage() {
+function HomePage({ startEntrance }: { startEntrance: boolean }) {
   return (
     <main className="relative">
-      <Hero />
+      <Hero startEntrance={startEntrance} />
       {storySections.map((section) => (
         <StorySection
           key={section.id}
@@ -98,25 +99,38 @@ function HomePage() {
 }
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [startEntrance, setStartEntrance] = useState(false);
+
   useEffect(() => {
     ScrollTrigger.refresh();
   }, []);
 
+  const handlePreloaderComplete = () => {
+    setLoading(false);
+    // Ultra-slow deliberate delay before starting hero entrance for better cinematic flow
+    setTimeout(() => setStartEntrance(true), 1500);
+  };
+
   return (
-    <div className="relative min-h-screen bg-black text-white">
-      <SmoothScroll>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/gallery" element={<FullGalleryPage />} />
-            <Route path="/beginning" element={<BeginningPage />} />
-            <Route path="/journey" element={<JourneyPage />} />
-            <Route path="/moments" element={<MomentsPage />} />
-            <Route path="/promises" element={<PromisesPage />} />
-            <Route path="/forever" element={<ForeverPage />} />
-          </Route>
-        </Routes>
-      </SmoothScroll>
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      {loading && <Preloader onComplete={handlePreloaderComplete} />}
+
+      <div className={`transition-opacity duration-2000 ${loading ? 'opacity-0 h-screen overflow-hidden' : 'opacity-100'}`}>
+        <SmoothScroll>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<HomePage startEntrance={startEntrance} />} />
+              <Route path="/gallery" element={<FullGalleryPage />} />
+              <Route path="/beginning" element={<BeginningPage />} />
+              <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/moments" element={<MomentsPage />} />
+              <Route path="/promises" element={<PromisesPage />} />
+              <Route path="/forever" element={<ForeverPage />} />
+            </Route>
+          </Routes>
+        </SmoothScroll>
+      </div>
     </div>
   );
 }
