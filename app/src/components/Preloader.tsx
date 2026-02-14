@@ -45,9 +45,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 }, '-=1.2')
                 .to(containerRef.current, {
                     yPercent: -100,
-                    duration: 2.5,
+                    duration: 0.8,
                     ease: 'power4.inOut',
-                    delay: 1.0,
+                    delay: 0.2,
                 });
 
             // Subtle logo pulse

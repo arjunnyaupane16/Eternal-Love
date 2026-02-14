@@ -108,8 +108,8 @@ function App() {
 
   const handlePreloaderComplete = () => {
     setLoading(false);
-    // Ultra-slow deliberate delay before starting hero entrance for better cinematic flow
-    setTimeout(() => setStartEntrance(true), 1500);
+    // Reduced delay before starting hero entrance for a snappier transition
+    setTimeout(() => setStartEntrance(true), 300);
   };
 
   return (

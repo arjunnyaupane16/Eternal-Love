@@ -121,14 +121,14 @@ export default function Hero({ startEntrance = true }: HeroProps) {
       mainTlRef.current.to(image, {
         scale: 1,
         opacity: 1,
-        duration: 7.0,
+        duration: 4.0,
         ease: 'power2.inOut',
       })
-        .to(label, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=5.5')
-        .to(line1, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=5.0')
-        .to(line2, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=4.5')
-        .to(line3, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=4.0')
-        .to(scrollIndicator, { opacity: 1, y: 0, duration: 1.5 }, '-=3.0')
+        .to(label, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.8')
+        .to(line1, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.5')
+        .to(line2, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.2')
+        .to(line3, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=1.9')
+        .to(scrollIndicator, { opacity: 1, y: 0, duration: 1.5 }, '-=1.2')
         .call(() => {
           const petals = createImagePetals();
           animatePetalsDetaching(petals);
