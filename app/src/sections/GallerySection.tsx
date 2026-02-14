@@ -1,236 +1,251 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Camera, MapPin, Calendar } from 'lucide-react';
+import Lightbox from '../components/Lightbox';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface GalleryImage {
-  src: string;
-  alt: string;
-  span?: 'small' | 'medium' | 'large';
-  zoomEffect?: 'ken-burns' | 'slow-zoom' | 'parallax-zoom' | 'none';
+interface GalleryItem {
+  id: number;
+  url: string;
+  title: string;
+  category: string;
+  location: string;
+  date: string;
+  className?: string;
 }
+
+const defaultGalleryItems: GalleryItem[] = [
+  {
+    id: 1,
+    url: '/ring-detail.jpg',
+    title: 'The Spark',
+    category: 'The Beginning',
+    location: 'Winter Garden',
+    date: 'Dec 2023',
+    className: 'md:col-span-1 md:row-span-1'
+  },
+  {
+    id: 2,
+    url: '/couple-romance.jpg',
+    title: 'First Glance',
+    category: 'The Beginning',
+    location: 'Venice, Italy',
+    date: 'Jan 2024',
+    className: 'md:col-span-2 md:row-span-2'
+  },
+  {
+    id: 3,
+    url: '/rose-petals.jpg',
+    title: 'Petals of Love',
+    category: 'Moments',
+    location: 'Santuari de Lluc',
+    date: 'Feb 2024',
+    className: 'md:col-span-1 md:row-span-1'
+  },
+  {
+    id: 4,
+    url: '/pattern-detail.jpg',
+    title: 'Intricate Vows',
+    category: 'The Promise',
+    location: 'Verona',
+    date: 'March 2024',
+    className: 'md:col-span-1 md:row-span-1'
+  },
+  {
+    id: 5,
+    url: '/couple-beach.jpg',
+    title: 'Serenity',
+    category: 'The Journey',
+    location: 'Maldives',
+    date: 'April 2024',
+    className: 'md:col-span-1 md:row-span-1'
+  },
+  {
+    id: 6,
+    url: '/rose-hero.jpg',
+    title: 'Everlasting Bloom',
+    category: 'Forever',
+    location: 'Eternal Garden',
+    date: 'Eternal',
+    className: 'md:col-span-1 md:row-span-1'
+  },
+];
 
 interface GallerySectionProps {
   id?: string;
-  title: string;
-  images: GalleryImage[];
+  title?: string;
+  images?: any[]; // Keep for compatibility but prioritize internal items if needed
 }
 
-export default function GallerySection({ id, title, images }: GallerySectionProps) {
+export default function GallerySection({ id = "gallery", title: propTitle }: GallerySectionProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const imageInnerRefs = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const titleEl = titleRef.current;
-    const gridEl = gridRef.current;
-    const imageElements = imageRefs.current.filter(Boolean);
-    const imageInnerElements = imageInnerRefs.current.filter(Boolean);
+    const titleContainer = titleRef.current;
+    const grid = gridRef.current;
+    const items = imageRefs.current.filter(Boolean);
 
-    if (!section || !titleEl || !gridEl || imageElements.length === 0) return;
+    if (!section || !titleContainer || !grid || items.length === 0) return;
 
-    const triggers: ScrollTrigger[] = [];
-
-    // Title animation with smoother easing
-    const titleTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 85%',
-      onEnter: () => {
-        gsap.fromTo(
-          titleEl,
-          { opacity: 0, y: 60, skewY: 2 },
-          {
-            opacity: 1,
-            y: 0,
-            skewY: 0,
-            duration: 1.2,
-            ease: 'power3.out'
+    const ctx = gsap.context(() => {
+      // Title animation
+      gsap.fromTo(titleContainer,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.5,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: titleContainer,
+            start: 'top 85%',
           }
-        );
-      },
-      once: true,
-    });
-    triggers.push(titleTrigger);
+        }
+      );
 
-    // Images staggered animation with smoother reveal
-    const imagesTrigger = ScrollTrigger.create({
-      trigger: gridEl,
-      start: 'top 80%',
-      onEnter: () => {
-        gsap.fromTo(
-          imageElements,
-          { opacity: 0, y: 80, scale: 0.95 },
+      // Grid items staggered reveal
+      items.forEach((item, index) => {
+        gsap.fromTo(item,
+          { opacity: 0, y: 100, scale: 0.95 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1,
-            stagger: {
-              each: 0.12,
-              from: 'start',
-            },
+            duration: 1.2,
             ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 90%',
+              toggleActions: 'play none none none',
+            },
+            delay: (index % 3) * 0.15,
           }
         );
-      },
-      once: true,
-    });
-    triggers.push(imagesTrigger);
+      });
+    }, section);
 
-    // Selective zoom animations based on zoomEffect type (scroll based)
-    images.forEach((image, index) => {
-      const imgEl = imageInnerElements[index];
-      const containerEl = imageElements[index];
-
-      if (!imgEl || !containerEl) return;
-
-      if (image.zoomEffect === 'ken-burns') {
-        gsap.fromTo(
-          imgEl,
-          { scale: 1.15, x: '-5%' },
-          {
-            scale: 1.05,
-            x: '5%',
-            duration: 20,
-            ease: 'none',
-            repeat: -1,
-            yoyo: true,
-          }
-        );
-      } else if (image.zoomEffect === 'slow-zoom') {
-        const zoomTrigger = ScrollTrigger.create({
-          trigger: containerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-          onUpdate: (self) => {
-            const scale = 1 + self.progress * 0.15;
-            gsap.to(imgEl, {
-              scale,
-              duration: 0.1,
-              ease: 'none',
-            });
-          },
-        });
-        triggers.push(zoomTrigger);
-      } else if (image.zoomEffect === 'parallax-zoom') {
-        const parallaxTrigger = ScrollTrigger.create({
-          trigger: containerEl,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-          onUpdate: (self) => {
-            const y = (self.progress - 0.5) * 60;
-            const scale = 1 + Math.abs(self.progress - 0.5) * 0.1;
-            gsap.to(imgEl, {
-              y,
-              scale,
-              duration: 0.1,
-              ease: 'none',
-            });
-          },
-        });
-        triggers.push(parallaxTrigger);
-      }
-    });
-
-    return () => {
-      triggers.forEach((trigger) => trigger.kill());
-    };
-  }, [images]);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       ref={sectionRef}
       id={id}
-      className="relative min-h-screen w-full bg-black py-24 md:py-32"
+      className="relative min-h-screen bg-black py-32 px-6 overflow-hidden"
     >
-      <div className="px-6 md:px-12 lg:px-24">
-        {/* Title */}
-        <h2
-          ref={titleRef}
-          className="section-title text-white text-center mb-16 md:mb-24 opacity-0"
-        >
-          {title}
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+        <div className="absolute top-1/4 -right-24 w-96 h-96 bg-[#6B0F1A]/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-1/4 -left-24 w-80 h-80 bg-[#6B0F1A]/5 blur-[100px] rounded-full" />
+      </div>
+
+      <div ref={titleRef} className="max-w-7xl mx-auto text-center mb-24 opacity-0">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="w-12 h-[1px] bg-[#6B0F1A]/50" />
+          <Camera className="w-6 h-6 text-[#6B0F1A]" />
+          <div className="w-12 h-[1px] bg-[#6B0F1A]/50" />
+        </div>
+        <h2 className="text-4xl md:text-6xl font-display tracking-[0.2em] mb-6 text-white uppercase">
+          {propTitle || 'Captured'} <span className="text-[#6B0F1A] italic">Moments</span>
         </h2>
+        <p className="text-white/40 text-sm md:text-base font-light tracking-[0.1em] max-w-xl mx-auto uppercase">
+          A visual record of our most precious chapters, frozen in time.
+        </p>
+      </div>
 
-        {/* Image Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8"
-        >
-          {images.map((image, index) => (
-            <div
-              key={index}
-              ref={(el) => { imageRefs.current[index] = el; }}
-              className={`relative overflow-hidden cursor-pointer group opacity-0 ${image.span === 'large'
-                  ? 'md:col-span-2 lg:col-span-2'
-                  : image.span === 'medium'
-                    ? 'md:col-span-1 lg:col-span-1'
-                    : ''
-                }`}
-              onMouseEnter={() => {
-                const img = imageInnerRefs.current[index];
-                if (img) {
-                  gsap.to(img, {
-                    scale: 1.1,
-                    duration: 1.5,
-                    ease: 'power2.out',
-                    overwrite: 'auto'
-                  });
-                }
-              }}
-              onMouseLeave={() => {
-                const img = imageInnerRefs.current[index];
-                if (img) {
-                  gsap.to(img, {
-                    scale: 1,
-                    duration: 1.2,
-                    ease: 'power2.out',
-                    overwrite: 'auto'
-                  });
-                }
-              }}
-            >
-              <div
-                className={`relative overflow-hidden ${image.span === 'large'
-                    ? 'aspect-[21/9]'
-                    : image.span === 'medium'
-                      ? 'aspect-[4/3]'
-                      : 'aspect-square'
-                  }`}
-              >
-                <img
-                  ref={(el) => { imageInnerRefs.current[index] = el; }}
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover"
-                  style={{ willChange: 'transform' }}
-                />
+      <div
+        ref={gridRef}
+        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        {defaultGalleryItems.map((item, index) => (
+          <div
+            key={item.id}
+            ref={(el) => { imageRefs.current[index] = el; }}
+            onClick={() => setSelectedImage(item.url)}
+            onMouseEnter={() => {
+              const img = imageInnerRefs.current[index];
+              if (img) {
+                gsap.to(img, {
+                  scale: 1.1,
+                  duration: 1.5,
+                  ease: 'power2.out',
+                  overwrite: 'auto'
+                });
+              }
+            }}
+            onMouseLeave={() => {
+              const img = imageInnerRefs.current[index];
+              if (img) {
+                gsap.to(img, {
+                  scale: 1,
+                  duration: 1.2,
+                  ease: 'power2.out',
+                  overwrite: 'auto'
+                });
+              }
+            }}
+            className={`relative overflow-hidden cursor-pointer group opacity-0 transition-shadow duration-500 hover:shadow-2xl hover:shadow-[#6B0F1A]/20 ${item.className || ''
+              }`}
+          >
+            {/* Image container */}
+            <div className="aspect-[4/5] overflow-hidden">
+              <img
+                ref={(el) => { imageInnerRefs.current[index] = el; }}
+                src={item.url}
+                alt={item.title}
+                className="w-full h-full object-cover will-change-transform"
+              />
+            </div>
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 transition-opacity duration-500 hover:opacity-40" />
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-8">
+              <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="flex items-center gap-2 text-[#6B0F1A] text-[10px] tracking-[0.3em] uppercase mb-2">
+                  <span className="w-4 h-[1px] bg-[#6B0F1A]" />
+                  {item.category}
+                </div>
+                <h3 className="text-white text-xl font-display tracking-wider mb-4">
+                  {item.title}
+                </h3>
 
-                {/* Hover Overlay with text */}
-                <div className="absolute inset-0 flex items-end p-6 pointer-events-none">
-                  <div className="transform translate-y-4 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                    <span className="label-text text-white/90 tracking-[0.2em]">{image.alt}</span>
-                    <div className="w-8 h-[1px] bg-white/50 mt-2 transform scale-x-0 transition-transform duration-500 delay-100 group-hover:scale-x-100" />
+                <div className="flex items-center gap-6 text-white/40 text-[10px] tracking-widest uppercase">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3 h-3" />
+                    {item.location}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-3 h-3" />
+                    {item.date}
                   </div>
                 </div>
 
-                {/* Corner accent */}
-                <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-white/0 transition-all duration-500 group-hover:border-white/30" />
-                <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-white/0 transition-all duration-500 group-hover:border-white/30" />
+                {/* View Details Hint */}
+                <div className="mt-6 flex items-center gap-2 text-[#6B0F1A] opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300">
+                  <div className="w-8 h-[1px] bg-[#6B0F1A]" />
+                  <span className="text-[8px] tracking-[0.4em] uppercase">Zoom Image</span>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Corner Decorative Accents */}
+            <div className="absolute top-4 right-4 w-6 h-6 border-t border-r border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100" />
+            <div className="absolute bottom-4 left-4 w-6 h-6 border-b border-l border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100" />
+          </div>
+        ))}
       </div>
+
+      <Lightbox
+        image={selectedImage}
+        onClose={() => setSelectedImage(null)}
+      />
     </section>
   );
 }

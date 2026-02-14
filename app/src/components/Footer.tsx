@@ -110,9 +110,11 @@ export default function Footer() {
               ].map(({ icon: Icon, label }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={label === 'Instagram' ? 'https://www.instagram.com/goreyishere14?igsh=NmYyZWIwcWtxZWdu' : '#'}
                   className="text-white/40 hover:text-[#6B0F1A] transition-all duration-500 transform hover:scale-110"
                   aria-label={label}
+                  target={label === 'Instagram' ? '_blank' : undefined}
+                  rel={label === 'Instagram' ? 'noopener noreferrer' : undefined}
                 >
                   <Icon className="w-5 h-5" />
                 </a>
