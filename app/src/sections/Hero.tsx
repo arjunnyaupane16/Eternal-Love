@@ -140,13 +140,6 @@ export default function Hero({ startEntrance = true }: HeroProps) {
             scale: 1,
             rotation: 0
           });
-
-          // Randomize position for the next appearance
-          const newLeft = 30 + Math.random() * 40;
-          const newTop = 30 + Math.random() * 40;
-          petal.style.left = `${newLeft}%`;
-          petal.style.top = `${newTop}%`;
-
           // Random delay before next appearance to keep it sparse
           const nextDelay = Math.random() * 5.0 + 2.0;
           animatePetal(petal, nextDelay);
