@@ -10,7 +10,7 @@
   --accent: 343 75% 31%;
   --accent-light: 350 70% 44%;
   --muted: 0 0% 63%;
-  
+
   --font-display: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
   --font-label: 'Montserrat', sans-serif;
@@ -109,10 +109,13 @@ body {
 }
 
 @keyframes scrollPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
     transform: translateX(-50%) scaleY(0.8);
   }
+
   50% {
     opacity: 1;
     transform: translateX(-50%) scaleY(1);
@@ -145,6 +148,7 @@ body {
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

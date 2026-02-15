@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { X, ChevronRight, Heart, Sparkles, Infinity, Diamond } from 'lucide-react';
+import { X, ChevronRight, Heart, Sparkles, Infinity, Diamond, Home } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
@@ -9,6 +9,7 @@ interface SidebarProps {
 }
 
 const menuItems = [
+  { label: 'HOME', icon: Home, href: '/', sectionId: 'top' },
   { label: 'OUR STORY', icon: Heart, href: '/', sectionId: 'our-story' },
   { label: 'THE BEGINNING', icon: Sparkles, href: '/beginning' },
   { label: 'THE JOURNEY', icon: ChevronRight, href: '/journey' },
@@ -28,6 +29,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const menuItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const secondaryItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
+  const [isERed, setIsERed] = useState(false);
+  const [isLWhite, setIsLWhite] = useState(false);
 
   useEffect(() => {
     const sidebar = sidebarRef.current;
@@ -170,11 +173,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       const sectionId = item.sectionId || item.href.split('#')[1];
 
       if (location.pathname !== '/') {
-        navigate('/' + (sectionId ? '#' + sectionId : ''));
+        navigate('/' + (sectionId !== 'top' ? '#' + sectionId : ''));
       } else {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+        if (sectionId === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       }
     }
@@ -213,12 +220,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
           </Link>
 
-          {/* Title Section */}
-          <div ref={titleRef} className="mb-12 opacity-0">
-            <p className="label-text text-[#8B1538] tracking-[0.3em] mb-3">NAVIGATE</p>
-            <h2 className="font-display text-3xl font-light tracking-[0.15em] text-white">
-              OUR STORY
-            </h2>
+          {/* Title Section - "NAVIGATE" restored */}
+          <div ref={titleRef} className="mb-8 opacity-0">
+            <p className="label-text text-[#8B1538] tracking-[0.3em]">NAVIGATE</p>
           </div>
 
           {/* Main Menu Items */}
@@ -279,9 +283,20 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Footer */}
           <div className="mt-auto pt-10">
             <div className="flex items-center gap-3">
-              <span className="font-display text-2xl font-light tracking-[0.3em] text-[#6B0F1A]/60">
-                EL
-              </span>
+              <div className="font-display text-2xl font-light tracking-[0.3em] select-none">
+                <span
+                  onClick={() => setIsERed(!isERed)}
+                  className={`cursor-pointer transition-colors duration-500 ${isERed ? 'text-[#6B0F1A]' : 'text-white'}`}
+                >
+                  E
+                </span>
+                <span
+                  onClick={() => setIsLWhite(!isLWhite)}
+                  className={`cursor-pointer transition-colors duration-500 ${isLWhite ? 'text-white' : 'text-[#6B0F1A]'}`}
+                >
+                  L
+                </span>
+              </div>
               <span className="w-[1px] h-4 bg-white/20" />
               <p className="text-xs text-white/30 tracking-wider">
                 A Love Story

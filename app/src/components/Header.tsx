@@ -12,6 +12,8 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isERed, setIsERed] = useState(false);
+  const [isLWhite, setIsLWhite] = useState(false);
 
   useEffect(() => {
     // Fade in header after intro
@@ -42,7 +44,7 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
           <Magnetic>
             <button
               onClick={onMenuClick}
-              className="flex items-center gap-3 group relative cursor-pointer"
+              className={`flex items-center gap-3 group relative cursor-pointer transition-opacity duration-300 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               <div className="relative w-6 h-6 flex items-center justify-center">
@@ -62,11 +64,20 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
 
           {/* Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <a href="#" className="block group">
-              <span className="font-display text-2xl md:text-3xl font-light tracking-[0.4em] text-[#6B0F1A] group-hover:text-white transition-colors duration-500">
-                EL
+            <div className="block font-display text-2xl md:text-3xl font-light tracking-[0.4em] select-none">
+              <span
+                onClick={() => setIsERed(!isERed)}
+                className={`cursor-pointer transition-colors duration-500 ${isERed ? 'text-[#6B0F1A]' : 'text-white'}`}
+              >
+                E
               </span>
-            </a>
+              <span
+                onClick={() => setIsLWhite(!isLWhite)}
+                className={`cursor-pointer transition-colors duration-500 ${isLWhite ? 'text-white' : 'text-[#6B0F1A]'}`}
+              >
+                L
+              </span>
+            </div>
           </div>
 
           {/* Right Side - Search/CTA */}

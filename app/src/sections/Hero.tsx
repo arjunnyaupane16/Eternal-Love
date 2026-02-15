@@ -41,74 +41,157 @@ export default function Hero({ startEntrance = true }: HeroProps) {
     const createImagePetals = () => {
       petalsContainer.innerHTML = '';
       const petals: HTMLDivElement[] = [];
-      const numPetals = 40;
+      const numPetals = 15; // Reduced count for sparse look "2-3 at a time"
 
-      const clippedShapes = [
-        'polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%)',
-        'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
-        'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)',
-        'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)'
+      // Organic rose petal shapes matching Preloader
+      const petalShapes = [
+        'path("M 50 0 Q 80 5, 90 25 Q 100 50, 95 75 Q 85 95, 50 100 Q 15 95, 5 75 Q 0 50, 10 25 Q 20 5, 50 0")',
+        'path("M 50 5 Q 75 8, 88 20 Q 98 40, 95 65 Q 88 88, 50 95 Q 12 88, 5 65 Q 2 40, 12 20 Q 25 8, 50 5")',
+        'path("M 50 0 Q 65 10, 70 30 Q 75 60, 70 80 Q 60 98, 50 100 Q 40 98, 30 80 Q 25 60, 30 30 Q 35 10, 50 0")',
+        'path("M 45 0 Q 70 12, 85 30 Q 95 55, 88 78 Q 75 95, 50 100 Q 25 92, 10 70 Q 5 45, 15 22 Q 30 5, 45 0")',
       ];
 
       for (let i = 0; i < numPetals; i++) {
         const petal = document.createElement('div');
         petal.classList.add('absolute', 'overflow-hidden');
 
+        // Position concentrated around the rose
         const left = 30 + Math.random() * 40;
         const top = 30 + Math.random() * 40;
-        const width = 5 + Math.random() * 10;
-        const height = width * (0.8 + Math.random() * 0.4);
+
+        // Convert size to % relative to viewport width roughly - INCREASED SIZE (Significantly larger)
+        const width = 5 + Math.random() * 5; // Approx 5-10% of screen width (Larger)
 
         petal.style.left = `${left}%`;
         petal.style.top = `${top}%`;
         petal.style.width = `${width}%`;
-        petal.style.height = `${height}%`;
-        petal.style.clipPath = clippedShapes[Math.floor(Math.random() * clippedShapes.length)];
+        petal.style.height = 'auto'; // Maintain aspect ratio
+        petal.style.aspectRatio = '1 / 1.3';
+        petal.style.opacity = '0'; // Start invisible for smooth fade-in
+        petal.style.clipPath = petalShapes[Math.floor(Math.random() * petalShapes.length)];
 
-        const innerImg = document.createElement('img');
-        innerImg.src = '/rose-hero.jpg';
-        innerImg.classList.add('absolute', 'w-full', 'h-full', 'object-cover');
-        innerImg.style.width = `${(100 / width) * 100}%`;
-        innerImg.style.height = `${(100 / height) * 100}%`;
-        innerImg.style.left = `${-(left / width) * 100}%`;
-        innerImg.style.top = `${-(top / height) * 100}%`;
-        innerImg.style.maxWidth = 'none';
-        innerImg.style.maxHeight = 'none';
+        // Exact DARK RED ROSE texture (Black-Red Velvet) - MATCHING PRELOADER + DARKER
+        // Color: Deepest Burgundy/Cabernet (#2F0508 base, #540911 mid)
+        const baseHue = 350 + Math.random() * 10;
+        const lightness = 6 + Math.random() * 8; // Almost black in shadows (6-14%)
+        const saturation = 80 + Math.random() * 15; // Rich but deep
 
-        petal.appendChild(innerImg);
-        petal.style.filter = 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))';
+        // Velvety texture simulation: Deep center, rich mid-tone, subtle edge highlight
+        petal.style.background = `
+            radial-gradient(circle at 30% 20%, 
+                hsla(${baseHue + 5}, ${saturation}%, ${lightness + 10}%, 0.95) 0%, 
+                hsla(${baseHue}, ${saturation}%, ${lightness + 4}%, 0.98) 35%,
+                rgba(20, 0, 5, 0.95) 80%,
+                transparent 100%),
+            linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.02) 0%, 
+                transparent 30%, 
+                rgba(0, 0, 0, 0.6) 100%)
+        `;
+
+        // Texture: Micro-noise for velvet effect (using box-shadow trickery)
+        petal.style.boxShadow = `
+            inset 0 0 30px rgba(0, 0, 0, 0.9),
+            inset -4px -4px 15px rgba(0, 0, 0, 0.8),
+            inset 4px 4px 15px rgba(100, 10, 20, 0.15)
+        `;
+
+        // Shadows for depth (detached feel) - MATCHING PRELOADER
+        petal.style.filter = `
+            drop-shadow(0 10px 15px rgba(0, 0, 0, 0.9))
+            drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7))
+            contrast(1.3)
+            saturate(1.2)
+            brightness(${0.8 + Math.random() * 0.2})
+        `;
+
+        petal.style.opacity = '0';
+
+        // Removed Water Drops for clean velvety look
+
         petalsContainer.appendChild(petal);
         petals.push(petal);
       }
       return petals;
     };
 
+    const animatePetal = (petal: HTMLDivElement, delay: number = 0) => {
+      const currentLeft = parseFloat(petal.style.left);
+      const currentTop = parseFloat(petal.style.top);
+      const centerX = 50;
+      const centerY = 50;
+      const dx = currentLeft - centerX;
+      const dy = currentTop - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      const velocity = 20 + Math.random() * 30; // SLOWER, MORE ELEGANT movement
+      const moveX = (dx / distance) * velocity;
+      const moveY = (dy / distance) * velocity;
+      const rotation = Math.random() * 360;
+
+      const tl = gsap.timeline({
+        delay: delay,
+        onComplete: () => {
+          // RESET and RESTART for continuous loop with new randomness
+          gsap.set(petal, {
+            opacity: 0,
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotation: 0
+          });
+
+          // Randomize position for the next appearance
+          const newLeft = 30 + Math.random() * 40;
+          const newTop = 30 + Math.random() * 40;
+          petal.style.left = `${newLeft}%`;
+          petal.style.top = `${newTop}%`;
+
+          // Random delay before next appearance to keep it sparse
+          const nextDelay = Math.random() * 5.0 + 2.0;
+          animatePetal(petal, nextDelay);
+        }
+      });
+
+      // Fade In - Smooth and slow
+      tl.to(petal, {
+        opacity: 0.9, // Almost fully visible
+        duration: 3.0 + Math.random() * 2.0, // Slower fade in (3-5s)
+        ease: 'power1.inOut',
+      })
+        // Move and Rotate (starts slightly before fade in completes) - MUCH SMOOTHER
+        .to(petal, {
+          xPercent: moveX * 3, // Move further out
+          yPercent: moveY * 3,
+          rotation: rotation,
+          scale: 0.8, // Slight scale down as they drift away
+          duration: 12 + Math.random() * 8, // EVEN SLOWER float duration (12-20s)
+          ease: 'sine.out', // Smoother easing for float
+        }, '<0.5') // Start moving almost immediately
+        // Continuous floating motion for extra smoothness
+        .to(petal, {
+          x: '+=20',
+          y: '+=15',
+          rotation: '+=15',
+          duration: 3,
+          repeat: 2,
+          yoyo: true,
+          ease: 'sine.inOut'
+        }, '<')
+        // Fade Out at the end - Long fade
+        .to(petal, {
+          opacity: 0,
+          duration: 3.5,
+          ease: 'power2.in',
+        }, '-=3.0'); // Fade out overlap with movement
+    };
+
     const animatePetalsDetaching = (petals: HTMLDivElement[]) => {
       petals.forEach((petal) => {
-        const currentLeft = parseFloat(petal.style.left);
-        const currentTop = parseFloat(petal.style.top);
-        const centerX = 50;
-        const centerY = 50;
-        const dx = currentLeft - centerX;
-        const dy = currentTop - centerY;
-        const distance = Math.sqrt(dx * dx + dy * dy) || 1;
-
-        const velocity = 50 + Math.random() * 100;
-        const moveX = (dx / distance) * velocity;
-        const moveY = (dy / distance) * velocity;
-        const rotation = Math.random() * 60 - 30;
-
-        gsap.to(petal, {
-          xPercent: moveX * 2,
-          yPercent: moveY * 2,
-          rotation: rotation,
-          opacity: 0,
-          scale: 0.8,
-          duration: 3 + Math.random() * 2,
-          ease: 'power2.out',
-          delay: Math.random() * 0.5
-        });
+        // Initial random start delay to stagger the FIRST appearance
+        // WIDER range to disperse them initially
+        const startDelay = Math.random() * 20.0;
+        animatePetal(petal, startDelay);
       });
     };
 
@@ -118,12 +201,20 @@ export default function Hero({ startEntrance = true }: HeroProps) {
 
       if (petalsContainer.innerHTML !== '') petalsContainer.innerHTML = '';
 
+      // Fade in image with Blur Effect when petals appear
       mainTlRef.current.to(image, {
         scale: 1,
         opacity: 1,
+        filter: 'blur(0px)', // Ensure clear first
         duration: 4.0,
         ease: 'power2.inOut',
       })
+        // Add subtle blur when petals are floating
+        .to(image, {
+          filter: 'blur(3px)', // Little blur as requested
+          duration: 2.0,
+          ease: 'power1.inOut'
+        }, '-=1.0') // Overlap with end of fade-in
         .to(label, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.8')
         .to(line1, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.5')
         .to(line2, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.2')

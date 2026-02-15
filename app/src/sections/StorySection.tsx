@@ -50,12 +50,12 @@ export default function StorySection({
         gsap.fromTo(
           titleEl,
           { opacity: 0, y: 60, clipPath: 'inset(100% 0 0 0)' },
-          { 
-            opacity: 1, 
-            y: 0, 
+          {
+            opacity: 1,
+            y: 0,
             clipPath: 'inset(0% 0 0 0)',
-            duration: 1.2, 
-            ease: 'power3.out' 
+            duration: 1.2,
+            ease: 'power3.out'
           }
         );
       },
@@ -95,27 +95,29 @@ export default function StorySection({
     });
     triggers.push(contentTrigger);
 
-    // Image reveal animation - smoother
-    const imageTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 70%',
-      onEnter: () => {
-        gsap.fromTo(
-          imageEl,
-          { opacity: 0, x: imagePosition === 'right' ? 80 : -80, scale: 0.95 },
-          { 
-            opacity: 1, 
-            x: 0, 
-            scale: 1, 
-            duration: 1.2, 
-            delay: 0.2, 
-            ease: 'power3.out' 
-          }
-        );
+    // Image slide-to-center animation - scrubbed and reversible
+    gsap.fromTo(
+      imageEl,
+      {
+        opacity: 0,
+        x: imagePosition === 'right' ? 150 : -150,
+        scale: 0.8,
+        filter: 'blur(10px)'
       },
-      once: true,
-    });
-    triggers.push(imageTrigger);
+      {
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom', // Start when section enters bottom
+          end: 'top 20%',    // Finish when section is near top
+          scrub: 1.5,
+        }
+      }
+    );
 
     // Parallax effect for image - smoother
     const parallaxTrigger = ScrollTrigger.create({
@@ -165,9 +167,8 @@ export default function StorySection({
     <section
       ref={sectionRef}
       id={id}
-      className={`relative min-h-screen w-full flex items-center ${
-        backgroundStyle === 'dark' ? 'bg-black' : ''
-      }`}
+      className={`relative min-h-screen w-full flex items-center ${backgroundStyle === 'dark' ? 'bg-black' : ''
+        }`}
     >
       {backgroundStyle === 'image' && (
         <div className="absolute inset-0">
@@ -182,9 +183,8 @@ export default function StorySection({
 
       <div className="relative z-10 w-full px-6 md:px-12 lg:px-24 py-24 md:py-32">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${
-            isImageLeft ? 'lg:flex-row-reverse' : ''
-          }`}
+          className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${isImageLeft ? 'lg:flex-row-reverse' : ''
+            }`}
         >
           {/* Text Content */}
           <div className={`${isImageLeft ? 'lg:order-2' : 'lg:order-1'}`}>
@@ -208,7 +208,7 @@ export default function StorySection({
             >
               {content}
             </p>
-            
+
             {/* Decorative line */}
             <div className="mt-10 flex items-center gap-4">
               <div className="w-12 h-[1px] bg-[#8B1538]/60" />
@@ -225,17 +225,17 @@ export default function StorySection({
               {/* Image frame effect */}
               <div className="absolute inset-0 border border-white/10 z-10 pointer-events-none" />
               <div className="absolute -inset-2 border border-[#8B1538]/20 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
+
               <img
                 ref={imageInnerRef}
                 src={imageSrc}
                 alt={title}
                 className="w-full h-full object-cover will-change-transform"
               />
-              
+
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-              
+
               {/* Corner accents */}
               <div className="absolute top-4 left-4 w-6 h-6 border-t border-l border-white/20 z-20" />
               <div className="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-white/20 z-20" />
