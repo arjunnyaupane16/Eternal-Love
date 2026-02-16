@@ -32,61 +32,82 @@ export default function Hero({ startEntrance = true }: HeroProps) {
 
     if (!section || !image || !line1 || !line2 || !line3 || !label || !scrollIndicator || !petalsContainer) return;
 
-    // Optimized Reset - Using autoAlpha for better performance
-    gsap.set(image, {
-      scale: 0.2,
-      autoAlpha: 0,
-      rotationY: 120,
-      rotationZ: -30,
-      z: -800,
-      force3D: true
-    });
-    gsap.set(label, { autoAlpha: 0, y: 30 });
-    gsap.set([line1, line2, line3], { autoAlpha: 0, y: 100 });
-    gsap.set(scrollIndicator, { autoAlpha: 0, y: 20 });
-
-    // quickSetters for high-frequency updates (Parallax)
-    const setY = gsap.quickSetter(image, "y", "px");
-    const setZ = gsap.quickSetter(image, "z", "px");
-    const setRotationX = gsap.quickSetter(image, "rotationX", "deg");
-    const setScale = gsap.quickSetter(image, "scale");
-
-    const setContentY = gsap.quickSetter([line1, line2, line3, label], "y", "px");
-    const setContentAlpha = gsap.quickSetter([line1, line2, line3, label], "autoAlpha");
+    // Reset initial states for entrance
+    gsap.set(image, { scale: 0.8, opacity: 0 });
+    gsap.set(label, { opacity: 0, y: 20 });
+    gsap.set([line1, line2, line3], { opacity: 0, y: 80 });
+    gsap.set(scrollIndicator, { opacity: 0, y: 20 });
 
     const createImagePetals = () => {
       petalsContainer.innerHTML = '';
       const petals: HTMLDivElement[] = [];
-      const numPetals = 18; // Slightly leaner for 120Hz/60fps perfection
+      const numPetals = 15; // Reduced count for sparse look "2-3 at a time"
 
-      // Simpler shapes = faster rendering
-      const shapes = [
-        'path("M 50 0 Q 90 10, 90 40 Q 90 70, 50 100 Q 10 70, 10 40 Q 10 10, 50 0")',
-        'path("M 50 0 C 80 20 80 80 50 100 C 20 80 20 20 50 0")'
+      // Organic rose petal shapes matching Preloader
+      const petalShapes = [
+        'path("M 50 0 Q 80 5, 90 25 Q 100 50, 95 75 Q 85 95, 50 100 Q 15 95, 5 75 Q 0 50, 10 25 Q 20 5, 50 0")',
+        'path("M 50 5 Q 75 8, 88 20 Q 98 40, 95 65 Q 88 88, 50 95 Q 12 88, 5 65 Q 2 40, 12 20 Q 25 8, 50 5")',
+        'path("M 50 0 Q 65 10, 70 30 Q 75 60, 70 80 Q 60 98, 50 100 Q 40 98, 30 80 Q 25 60, 30 30 Q 35 10, 50 0")',
+        'path("M 45 0 Q 70 12, 85 30 Q 95 55, 88 78 Q 75 95, 50 100 Q 25 92, 10 70 Q 5 45, 15 22 Q 30 5, 45 0")',
       ];
 
       for (let i = 0; i < numPetals; i++) {
         const petal = document.createElement('div');
-        petal.classList.add('absolute', 'will-change-transform');
+        petal.classList.add('absolute', 'overflow-hidden');
 
-        const size = 4 + Math.random() * 4;
-        petal.style.width = `${size}vw`;
+        // Position concentrated around the rose
+        const left = 30 + Math.random() * 40;
+        const top = 30 + Math.random() * 40;
+
+        // Convert size to % relative to viewport width roughly - INCREASED SIZE (Significantly larger)
+        const width = 5 + Math.random() * 5; // Approx 5-10% of screen width (Larger)
+
+        petal.style.left = `${left}%`;
+        petal.style.top = `${top}%`;
+        petal.style.width = `${width}%`;
+        petal.style.height = 'auto'; // Maintain aspect ratio
         petal.style.aspectRatio = '1 / 1.3';
-        petal.style.left = '50%';
-        petal.style.top = '50%';
-        petal.style.marginLeft = `-${size / 2}vw`;
-        petal.style.marginTop = `-${size / 2}vw`;
+        petal.style.opacity = '0'; // Start invisible for smooth fade-in
+        petal.style.clipPath = petalShapes[Math.floor(Math.random() * petalShapes.length)];
+
+        // Exact DARK RED ROSE texture (Black-Red Velvet) - MATCHING PRELOADER + DARKER
+        // Color: Deepest Burgundy/Cabernet (#2F0508 base, #540911 mid)
+        const baseHue = 350 + Math.random() * 10;
+        const lightness = 6 + Math.random() * 8; // Almost black in shadows (6-14%)
+        const saturation = 80 + Math.random() * 15; // Rich but deep
+
+        // Velvety texture simulation: Deep center, rich mid-tone, subtle edge highlight
+        petal.style.background = `
+            radial-gradient(circle at 30% 20%, 
+                hsla(${baseHue + 5}, ${saturation}%, ${lightness + 10}%, 0.95) 0%, 
+                hsla(${baseHue}, ${saturation}%, ${lightness + 4}%, 0.98) 35%,
+                rgba(20, 0, 5, 0.95) 80%,
+                transparent 100%),
+            linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.02) 0%, 
+                transparent 30%, 
+                rgba(0, 0, 0, 0.6) 100%)
+        `;
+
+        // Texture: Micro-noise for velvet effect (using box-shadow trickery)
+        petal.style.boxShadow = `
+            inset 0 0 30px rgba(0, 0, 0, 0.9),
+            inset -4px -4px 15px rgba(0, 0, 0, 0.8),
+            inset 4px 4px 15px rgba(100, 10, 20, 0.15)
+        `;
+
+        // Shadows for depth (detached feel) - MATCHING PRELOADER
+        petal.style.filter = `
+            drop-shadow(0 10px 15px rgba(0, 0, 0, 0.9))
+            drop-shadow(0 4px 6px rgba(0, 0, 0, 0.7))
+            contrast(1.3)
+            saturate(1.2)
+            brightness(${0.8 + Math.random() * 0.2})
+        `;
+
         petal.style.opacity = '0';
-        petal.style.clipPath = shapes[i % shapes.length];
-        petal.style.transformStyle = 'preserve-3d';
 
-        // Optimized gradient (less stops = less work)
-        const baseHue = 345 + Math.random() * 10;
-        petal.style.background = `radial-gradient(circle at 40% 40%, 
-            hsla(${baseHue}, 80%, 15%, 0.8) 0%, 
-            black 100%)`;
-
-        petal.style.boxShadow = '0 10px 15px rgba(0,0,0,0.4)';
+        // Removed Water Drops for clean velvety look
 
         petalsContainer.appendChild(petal);
         petals.push(petal);
@@ -94,71 +115,114 @@ export default function Hero({ startEntrance = true }: HeroProps) {
       return petals;
     };
 
-    const animatePetalVortex = (petal: HTMLDivElement, index: number) => {
-      const angle = (index / 18) * Math.PI * 4;
-      const radius = 300 + Math.random() * 300;
+    const animatePetal = (petal: HTMLDivElement, delay: number = 0) => {
+      const currentLeft = parseFloat(petal.style.left);
+      const currentTop = parseFloat(petal.style.top);
+      const centerX = 50;
+      const centerY = 50;
+      const dx = currentLeft - centerX;
+      const dy = currentTop - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
 
-      gsap.fromTo(petal,
-        { autoAlpha: 0, scale: 0.3, x: 0, y: 0, z: -300, rotationX: 0, rotationY: 0, rotationZ: 0 },
-        {
-          autoAlpha: 0.6,
-          scale: 1.2,
-          x: Math.cos(angle) * radius,
-          y: Math.sin(angle) * radius,
-          z: 600,
-          rotationX: 360,
-          rotationY: 360,
-          duration: 12 + Math.random() * 6,
-          delay: index * 0.1,
-          ease: 'none', // Linear is actually smoother for constant vortex motion
-          force3D: true,
-          onComplete: () => {
-            if (sectionRef.current) animatePetalVortex(petal, index);
-          }
+      const velocity = 20 + Math.random() * 30; // SLOWER, MORE ELEGANT movement
+      const moveX = (dx / distance) * velocity;
+      const moveY = (dy / distance) * velocity;
+      const rotation = Math.random() * 360;
+
+      const tl = gsap.timeline({
+        delay: delay,
+        onComplete: () => {
+          // RESET and RESTART for continuous loop with new randomness
+          gsap.set(petal, {
+            opacity: 0,
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotation: 0
+          });
+          // Random delay before next appearance to keep it sparse
+          const nextDelay = Math.random() * 5.0 + 2.0;
+          animatePetal(petal, nextDelay);
         }
-      );
+      });
+
+      // Fade In - Smooth and slow
+      tl.to(petal, {
+        opacity: 0.9, // Almost fully visible
+        duration: 3.0 + Math.random() * 2.0, // Slower fade in (3-5s)
+        ease: 'power1.inOut',
+      })
+        // Move and Rotate (starts slightly before fade in completes) - MUCH SMOOTHER
+        .to(petal, {
+          xPercent: moveX * 3, // Move further out
+          yPercent: moveY * 3,
+          rotation: rotation,
+          scale: 0.8, // Slight scale down as they drift away
+          duration: 12 + Math.random() * 8, // EVEN SLOWER float duration (12-20s)
+          ease: 'sine.out', // Smoother easing for float
+        }, '<0.5') // Start moving almost immediately
+        // Continuous floating motion for extra smoothness
+        .to(petal, {
+          x: '+=20',
+          y: '+=15',
+          rotation: '+=15',
+          duration: 3,
+          repeat: 2,
+          yoyo: true,
+          ease: 'sine.inOut'
+        }, '<')
+        // Fade Out at the end - Long fade
+        .to(petal, {
+          opacity: 0,
+          duration: 3.5,
+          ease: 'power2.in',
+        }, '-=3.0'); // Fade out overlap with movement
+    };
+
+    const animatePetalsDetaching = (petals: HTMLDivElement[]) => {
+      petals.forEach((petal) => {
+        // Initial random start delay to stagger the FIRST appearance
+        // WIDER range to disperse them initially
+        const startDelay = Math.random() * 20.0;
+        animatePetal(petal, startDelay);
+      });
     };
 
     const playSequence = () => {
       if (mainTlRef.current) mainTlRef.current.kill();
       mainTlRef.current = gsap.timeline();
 
-      // THE CINEMATIC 3D VDO ENTRANCE - Performance Optimized
-      mainTlRef.current
+      if (petalsContainer.innerHTML !== '') petalsContainer.innerHTML = '';
+
+      // Fade in image with Blur Effect when petals appear
+      mainTlRef.current.to(image, {
+        scale: 1,
+        opacity: 1,
+        filter: 'blur(0px)', // Ensure clear first
+        duration: 4.0,
+        ease: 'power2.inOut',
+      })
+        // Add subtle blur when petals are floating
         .to(image, {
-          autoAlpha: 1,
-          scale: 1,
-          rotationY: 0,
-          rotationZ: 0,
-          z: 0,
-          duration: 3.5,
-          ease: 'expo.out',
-          force3D: true
-        })
-        .to([label, line1, line2, line3], {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.2,
-          stagger: 0.1,
-          ease: 'power2.out'
-        }, '-=2.8')
-        .to(scrollIndicator, { autoAlpha: 1, y: 0, duration: 1 }, '-=1.0')
+          filter: 'blur(3px)', // Little blur as requested
+          duration: 2.0,
+          ease: 'power1.inOut'
+        }, '-=1.0') // Overlap with end of fade-in
+        .to(label, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.8')
+        .to(line1, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.5')
+        .to(line2, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.2')
+        .to(line3, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=1.9')
+        .to(scrollIndicator, { opacity: 1, y: 0, duration: 1.5 }, '-=1.2')
         .call(() => {
           const petals = createImagePetals();
-          petals.forEach((p, i) => animatePetalVortex(p, i));
-        }, undefined, '-=3.5');
-
-      // Efficient Breathing Loop
-      gsap.to(image, {
-        rotationY: 5,
-        rotationX: 3,
-        z: 10,
-        duration: 6,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        force3D: true
-      });
+          animatePetalsDetaching(petals);
+        }, undefined, '-=0.1')
+        .to([label, line1, line2, line3], {
+          opacity: 0,
+          y: -20,
+          duration: 2,
+          stagger: 0.1
+        }, '<+1');
     };
 
     if (startEntrance) {
@@ -169,16 +233,21 @@ export default function Hero({ startEntrance = true }: HeroProps) {
       trigger: section,
       start: 'top top',
       end: 'bottom top',
-      scrub: true, // Use binary scrub for direct sync
+      scrub: 1.5,
       onUpdate: (self) => {
-        const p = self.progress;
-        setY(p * 200);
-        setZ(-p * 500);
-        setRotationX(p * 12);
-        setScale(1 - p * 0.15);
-
-        setContentY(-p * 120);
-        setContentAlpha(1 - p * 2.5);
+        const progress = self.progress;
+        gsap.to(image, {
+          y: progress * 150,
+          scale: 1 + progress * 0.1,
+          duration: 0.1,
+          ease: 'none',
+        });
+        gsap.to([line1, line2, line3, label], {
+          y: -progress * 100,
+          opacity: 1 - progress * 2,
+          duration: 0.1,
+          ease: 'none',
+        });
       },
     });
 
@@ -189,50 +258,37 @@ export default function Hero({ startEntrance = true }: HeroProps) {
   }, [startEntrance]);
 
   return (
-    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-black" style={{ perspective: '1500px' }}>
-      {/* Cinematic Background Layer */}
-      <div className="absolute inset-0 z-0">
-        <img src="/rose-hero.jpg" alt="" className="w-full h-full object-cover opacity-30 blur-sm" />
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-black" />
+    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
+      <div ref={imageRef} className="absolute inset-0 will-change-transform">
+        <img src="/rose-hero.jpg" alt="Black Baccara Rose" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
+        <div ref={petalsContainerRef} className="absolute inset-0 pointer-events-none z-20 overflow-visible" />
       </div>
 
-      {/* 3D Main Flower Layer */}
-      <div ref={imageRef} className="absolute inset-0 flex items-center justify-center will-change-transform z-10" style={{ transformStyle: 'preserve-3d' }}>
-        <img
-          src="/assets/dark-rose-hero.png"
-          alt="Eternal Rose"
-          className="w-[90vh] h-[90vh] object-contain drop-shadow-[0_0_80px_rgba(107,15,26,0.3)]"
-          style={{ transform: 'translateZ(50px)' }}
-        />
-        <div ref={petalsContainerRef} className="absolute inset-0 pointer-events-none z-20 overflow-visible" style={{ transformStyle: 'preserve-3d' }} />
-      </div>
-
-      {/* Interface Layer */}
-      <div className="relative z-30 h-full flex flex-col items-center justify-center px-6">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
         <div ref={labelRef} className="mb-8 opacity-0">
-          <span className="label-text text-white/50 tracking-[0.5em] text-xs uppercase">A Love Story Written in Roses</span>
+          <span className="label-text text-white/60 tracking-[0.4em]">OUR LOVE PRESENTS</span>
         </div>
 
         <div className="text-center">
           <div ref={textLine1Ref} className="overflow-hidden opacity-0">
             <h1 className="hero-title text-[#6B0F1A]">ETERNAL</h1>
           </div>
-          <div ref={textLine2Ref} className="overflow-hidden opacity-0 flex justify-center">
+          <div ref={textLine2Ref} className="overflow-hidden opacity-0">
             <h1 className="hero-title text-[#6B0F1A]">LOVE</h1>
           </div>
-          <div ref={textLine3Ref} className="mt-8 opacity-0">
-            <p className="font-display text-lg md:text-xl font-light tracking-[0.3em] text-white/60">
-              EST. 2026
+          <div ref={textLine3Ref} className="overflow-hidden mt-8 opacity-0">
+            <p className="font-display text-lg md:text-xl font-light tracking-[0.25em] text-white/70">
+              A Love Story Written in Roses
             </p>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div ref={scrollIndicatorRef} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0 z-40">
-        <span className="label-text text-white/30 tracking-[0.3em] text-[10px]">EXPLORE</span>
-        <div className="w-[1px] h-20 bg-gradient-to-b from-white/30 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-6 bg-[#6B0F1A]/80 animate-scroll-line" />
+      <div ref={scrollIndicatorRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0">
+        <span className="label-text text-white/40 tracking-[0.2em]">SCROLL</span>
+        <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-4 bg-white/60 animate-scroll-line" />
         </div>
       </div>
 
@@ -242,17 +298,7 @@ export default function Hero({ startEntrance = true }: HeroProps) {
           50% { opacity: 1; }
           100% { transform: translateY(400%); opacity: 0; }
         }
-        .animate-scroll-line { animation: scroll-line 3s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-        .hero-title {
-          font-size: clamp(4.5rem, 18vw, 12rem);
-          line-height: 0.85;
-          font-weight: 800;
-          letter-spacing: -0.04em;
-          filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
-        }
-        .bg-radial-gradient {
-          background: radial-gradient(circle at center, transparent 0%, black 100%);
-        }
+        .animate-scroll-line { animation: scroll-line 2s ease-in-out infinite; }
       `}</style>
     </section>
   );
