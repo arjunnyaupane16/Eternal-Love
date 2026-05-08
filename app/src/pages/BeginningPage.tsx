@@ -98,7 +98,7 @@ export default function BeginningPage() {
                 {/* New Photo Grid Section */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-32 content-section">
                     <div className="relative aspect-square overflow-hidden">
-                        <img src="/couple-romance.jpg" alt="First Glance" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/A.jpeg" alt="First Glance" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-black/20" />
                     </div>
                     <div className="relative aspect-square overflow-hidden">

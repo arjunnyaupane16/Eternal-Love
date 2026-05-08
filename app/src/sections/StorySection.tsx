@@ -221,7 +221,7 @@ export default function StorySection({
             ref={imageRef}
             className={`${isImageLeft ? 'lg:order-1' : 'lg:order-2'} opacity-0`}
           >
-            <div className="relative aspect-[4/3] overflow-hidden group">
+            <div className="relative aspect-[4/5] overflow-hidden group">
               {/* Image frame effect */}
               <div className="absolute inset-0 border border-white/10 z-10 pointer-events-none" />
               <div className="absolute -inset-2 border border-[#8B1538]/20 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -230,7 +230,7 @@ export default function StorySection({
                 ref={imageInnerRef}
                 src={imageSrc}
                 alt={title}
-                className="w-full h-full object-cover will-change-transform"
+                className="w-full h-full object-cover object-[center_20%] will-change-transform"
               />
 
               {/* Gradient overlay */}

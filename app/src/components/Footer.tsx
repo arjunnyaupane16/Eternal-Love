@@ -98,7 +98,7 @@ export default function Footer() {
               </h2>
             </div>
             <p className="text-white/50 text-base font-light leading-relaxed max-w-sm mb-10">
-              Celebrating love in its most timeless form. Inspired by the dark romance of the rose and the brilliance of devotion.
+              Celebrating a love built through distance, late-night conversations, quiet understanding, and the beautiful comfort we found in each other. Inspired by the dark romance of the rose and the brilliance of devotion.
             </p>
 
             {/* Social Icons */}

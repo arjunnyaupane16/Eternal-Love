@@ -87,7 +87,7 @@ export default function Header({ onMenuClick, isMenuOpen }: HeaderProps) {
               className="flex items-center gap-3 group relative cursor-pointer"
             >
               <Search className="w-4 h-4 text-white transition-all duration-300 group-hover:scale-110" />
-              <span className="label-text text-white hidden md:block tracking-[0.2em]">FIND HER HEART</span>
+              <span className="label-text text-white hidden md:block tracking-[0.2em]">FOR MY LOVE SMRITI</span>
               {/* Hover underline */}
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300" />
             </button>

@@ -142,11 +142,25 @@ export default function QuoteSection({
         </blockquote>
 
         <div ref={authorRef} className="mt-16 opacity-0">
-          {/* Decorative line */}
+          {/* A & S with decorative styling */}
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-8 h-[1px] bg-[#8B1538]/60" />
-            <div className="w-2 h-2 rounded-full bg-[#8B1538]/60" />
-            <div className="w-8 h-[1px] bg-[#8B1538]/60" />
+            {author === "FOR THE GIRL WHO BECAME HOME" ? (
+              <>
+                <span className="font-display text-lg md:text-xl text-white/70 tracking-widest animate-fade-glow">for</span>
+                <div className="w-8 h-[1px] bg-[#8B1538]/60" />
+                <div className="w-2 h-2 rounded-full bg-[#8B1538]/60 animate-pulse-slow" />
+                <div className="w-8 h-[1px] bg-[#8B1538]/60" />
+                <span className="font-display text-lg md:text-xl text-white/70 tracking-widest animate-fade-glow">Smriti</span>
+              </>
+            ) : (
+              <>
+                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">A</span>
+                <div className="w-8 h-[1px] bg-[#8B1538]/60" />
+                <span className="text-[#8B1538] text-xl">&</span>
+                <div className="w-8 h-[1px] bg-[#8B1538]/60" />
+                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">S</span>
+              </>
+            )}
           </div>
 
           <p className="font-display text-lg md:text-xl font-medium tracking-[0.25em] text-white">

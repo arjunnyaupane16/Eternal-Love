@@ -23,16 +23,16 @@ const defaultGalleryItems: GalleryItem[] = [
     title: 'The Spark',
     category: 'The Beginning',
     location: 'Winter Garden',
-    date: 'Dec 2023',
+    date: 'Dec 2024',
     className: 'md:col-span-1 md:row-span-1'
   },
   {
     id: 2,
-    url: '/couple-romance.jpg',
-    title: 'First Glance',
+    url: '/A.jpeg',
+    title: "A Moment I'll Never Forget",
     category: 'The Beginning',
-    location: 'Venice, Italy',
-    date: 'Jan 2024',
+    location: 'Hetauda, Nepal',
+    date: 'Dec 2025',
     className: 'md:col-span-2 md:row-span-2'
   },
   {
@@ -41,7 +41,7 @@ const defaultGalleryItems: GalleryItem[] = [
     title: 'Petals of Love',
     category: 'Moments',
     location: 'Santuari de Lluc',
-    date: 'Feb 2024',
+    date: 'Feb 2025',
     className: 'md:col-span-1 md:row-span-1'
   },
   {
@@ -50,16 +50,16 @@ const defaultGalleryItems: GalleryItem[] = [
     title: 'Intricate Vows',
     category: 'The Promise',
     location: 'Verona',
-    date: 'March 2024',
+    date: 'March 2025',
     className: 'md:col-span-1 md:row-span-1'
   },
   {
     id: 5,
-    url: '/couple-beach.jpg',
-    title: 'Serenity',
+    url: '/B.jpeg',
+    title: 'The Day I Saw Forever',
     category: 'The Journey',
-    location: 'Maldives',
-    date: 'April 2024',
+    location: 'Hetauda, Nepal',
+    date: '2025',
     className: 'md:col-span-1 md:row-span-1'
   },
   {

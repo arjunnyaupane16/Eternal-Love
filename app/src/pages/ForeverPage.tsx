@@ -136,7 +136,7 @@ export default function ForeverPage() {
                         </div>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden">
-                        <img src="/couple-romance.jpg" alt="Forever 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/A.jpeg" alt="Forever 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
                             <p className="text-sm font-display text-white/80">Timeless Love</p>

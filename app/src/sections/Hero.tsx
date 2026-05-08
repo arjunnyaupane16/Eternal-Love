@@ -17,6 +17,7 @@ export default function Hero({ startEntrance = true }: HeroProps) {
   const labelRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const petalsContainerRef = useRef<HTMLDivElement>(null);
+  const bottomTextRef = useRef<HTMLDivElement>(null);
 
   const mainTlRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -29,14 +30,16 @@ export default function Hero({ startEntrance = true }: HeroProps) {
     const label = labelRef.current;
     const scrollIndicator = scrollIndicatorRef.current;
     const petalsContainer = petalsContainerRef.current;
+    const bottomText = bottomTextRef.current;
 
-    if (!section || !image || !line1 || !line2 || !line3 || !label || !scrollIndicator || !petalsContainer) return;
+    if (!section || !image || !line1 || !line2 || !line3 || !label || !scrollIndicator || !petalsContainer || !bottomText) return;
 
     // Reset initial states for entrance
     gsap.set(image, { scale: 0.8, opacity: 0 });
     gsap.set(label, { opacity: 0, y: 20 });
     gsap.set([line1, line2, line3], { opacity: 0, y: 80 });
     gsap.set(scrollIndicator, { opacity: 0, y: 20 });
+    gsap.set(bottomText, { opacity: 0, y: 20 });
 
     const createImagePetals = () => {
       petalsContainer.innerHTML = '';
@@ -78,14 +81,14 @@ export default function Hero({ startEntrance = true }: HeroProps) {
 
         // Velvety texture simulation: Deep center, rich mid-tone, subtle edge highlight
         petal.style.background = `
-            radial-gradient(circle at 30% 20%, 
-                hsla(${baseHue + 5}, ${saturation}%, ${lightness + 10}%, 0.95) 0%, 
+            radial-gradient(circle at 30% 20%,
+                hsla(${baseHue + 5}, ${saturation}%, ${lightness + 10}%, 0.95) 0%,
                 hsla(${baseHue}, ${saturation}%, ${lightness + 4}%, 0.98) 35%,
                 rgba(20, 0, 5, 0.95) 80%,
                 transparent 100%),
-            linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.02) 0%, 
-                transparent 30%, 
+            linear-gradient(135deg,
+                rgba(255, 255, 255, 0.02) 0%,
+                transparent 30%,
                 rgba(0, 0, 0, 0.6) 100%)
         `;
 
@@ -212,12 +215,24 @@ export default function Hero({ startEntrance = true }: HeroProps) {
         .to(line1, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.5')
         .to(line2, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=2.2')
         .to(line3, { opacity: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=1.9')
+        .to(bottomText, {
+          opacity: 1,
+          y: 0,
+          scale: 1.1,
+          duration: 2,
+          ease: 'elastic.out(1, 0.5)'
+        }, '-=1.6')
+        .to(bottomText, {
+          scale: 1,
+          duration: 1,
+          ease: 'power2.inOut'
+        }, '-=0.5')
         .to(scrollIndicator, { opacity: 1, y: 0, duration: 1.5 }, '-=1.2')
         .call(() => {
           const petals = createImagePetals();
           animatePetalsDetaching(petals);
         }, undefined, '-=0.1')
-        .to([label, line1, line2, line3], {
+        .to([label, line1, line2, line3, bottomText], {
           opacity: 0,
           y: -20,
           duration: 2,
@@ -242,7 +257,7 @@ export default function Hero({ startEntrance = true }: HeroProps) {
           duration: 0.1,
           ease: 'none',
         });
-        gsap.to([line1, line2, line3, label], {
+        gsap.to([line1, line2, line3, label, bottomText], {
           y: -progress * 100,
           opacity: 1 - progress * 2,
           duration: 0.1,
@@ -277,18 +292,28 @@ export default function Hero({ startEntrance = true }: HeroProps) {
           <div ref={textLine2Ref} className="overflow-hidden opacity-0">
             <h1 className="hero-title text-[#6B0F1A]">LOVE</h1>
           </div>
-          <div ref={textLine3Ref} className="overflow-hidden mt-8 opacity-0">
-            <p className="font-display text-lg md:text-xl font-light tracking-[0.25em] text-white/70">
-              A Love Story Written in Roses
-            </p>
-          </div>
         </div>
       </div>
 
-      <div ref={scrollIndicatorRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0">
-        <span className="label-text text-white/40 tracking-[0.2em]">SCROLL</span>
-        <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-4 bg-white/60 animate-scroll-line" />
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0" ref={scrollIndicatorRef}>
+        <div ref={textLine3Ref} className="overflow-hidden opacity-0">
+          <p className="font-display text-lg md:text-xl font-light tracking-[0.25em] text-white/70">
+            A Love Story Written in Roses
+          </p>
+        </div>
+        <div ref={bottomTextRef} className="flex items-center gap-6">
+          <p className="font-display text-base md:text-lg font-light tracking-[0.3em] text-white/60 animate-names">
+            Arjun
+          </p>
+          <div className="flex flex-col items-center gap-2">
+            <span className="label-text text-white/40 tracking-[0.2em]">SCROLL</span>
+            <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-4 bg-white/60 animate-scroll-line" />
+            </div>
+          </div>
+          <p className="font-display text-base md:text-lg font-light tracking-[0.3em] text-white/60 animate-names">
+            Smriti
+          </p>
         </div>
       </div>
 
@@ -299,6 +324,48 @@ export default function Hero({ startEntrance = true }: HeroProps) {
           100% { transform: translateY(400%); opacity: 0; }
         }
         .animate-scroll-line { animation: scroll-line 2s ease-in-out infinite; }
+
+        @keyframes glow-pulse {
+          0%, 100% {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                         0 0 20px rgba(255, 255, 255, 0.2),
+                         0 0 30px rgba(107, 15, 26, 0.3);
+          }
+          50% {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 30px rgba(255, 255, 255, 0.3),
+                         0 0 40px rgba(107, 15, 26, 0.5),
+                         0 0 50px rgba(107, 15, 26, 0.3);
+          }
+        }
+
+        @keyframes float-gentle {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-4px); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        .animate-names {
+          animation: glow-pulse 3s ease-in-out infinite,
+                     float-gentle 4s ease-in-out infinite;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.9) 50%,
+            rgba(255, 255, 255, 0.6) 100%
+          );
+          background-size: 200% auto;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: glow-pulse 3s ease-in-out infinite,
+                     float-gentle 4s ease-in-out infinite,
+                     shimmer 4s linear infinite;
+        }
       `}</style>
     </section>
   );

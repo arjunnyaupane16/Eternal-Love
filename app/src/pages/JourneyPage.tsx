@@ -73,9 +73,9 @@ export default function JourneyPage() {
             <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <img
-                        src="/couple-beach.jpg"
+                        src="/B.jpeg"
                         alt="The Journey"
-                        className="w-full h-full object-cover opacity-50 scale-110"
+                        className="w-full h-full object-cover object-[center_20%] opacity-50 scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
                 </div>
@@ -99,7 +99,7 @@ export default function JourneyPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto items-stretch">
                     <div className="relative h-[600px] overflow-hidden reveal-text">
                         <img
-                            src="/couple-romance.jpg"
+                            src="/A.jpeg"
                             alt="Adventure"
                             className="parallax-img w-full h-[120%] object-cover absolute top-[-10%]"
                         />

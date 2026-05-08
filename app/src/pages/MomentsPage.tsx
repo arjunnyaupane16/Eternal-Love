@@ -6,12 +6,20 @@ import { Link } from 'react-router-dom';
 gsap.registerPlugin(ScrollTrigger);
 
 const memories = [
-    { src: '/rose-hero.jpg', title: 'The First Spark', desc: 'When we knew it was forever.' },
-    { src: '/couple-romance.jpg', title: 'Dance in the Rain', desc: 'Laughter through the storms.' },
+    { src: '/rose-hero.jpg', title: 'The First Spark', desc: 'When Smriti and I knew it was forever.' },
+    { src: '/A.jpeg', title: 'Our Moment', desc: 'A memory etched in time.' },
+    { src: '/B.jpeg', title: 'Her Grace', desc: 'Smriti, beautiful as ever.' },
+    { src: '/C.jpeg', title: 'Together', desc: 'Every step we took together.' },
     { src: '/ring-detail.jpg', title: 'The Hidden Vow', desc: 'Promises whispered in the dark.' },
     { src: '/rose-petals.jpg', title: 'Soft Echoes', desc: 'Every gentle word remembered.' },
+    { src: '/rose-leaf-1.jpg', title: 'First Bloom', desc: 'Where our love story began to unfold.' },
+    { src: '/rose-leaf-2.jpg', title: 'Growing Together', desc: 'Like leaves, we flourish side by side.' },
+    { src: '/rose-leaf-3.jpg', title: 'Natural Beauty', desc: 'Finding magic in simple moments.' },
     { src: '/couple-beach.jpg', title: 'Endless Horizons', desc: 'Our future, bright and clear.' },
     { src: '/pattern-detail.jpg', title: 'The Fine Print', desc: 'The details that make us, us.' },
+    { src: '/assets/dark-rose-hero.png', title: 'Dark Romance', desc: 'Love blooms in the darkest hours.' },
+    { src: '/assets/forever-ring.jpg', title: 'Forever', desc: 'A promise that lasts a lifetime.' },
+    { src: '/assets/promises-new.jpg', title: 'Our Promise', desc: 'Words that bind two hearts.' },
 ];
 
 export default function MomentsPage() {

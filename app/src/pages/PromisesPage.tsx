@@ -110,7 +110,7 @@ export default function PromisesPage() {
             <section className="py-24 px-6 max-w-7xl mx-auto reveal-section">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="relative aspect-square overflow-hidden">
-                        <img src="/couple-romance.jpg" alt="Promise 1" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/A.jpeg" alt="Promise 1" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                     <div className="relative aspect-square overflow-hidden">
