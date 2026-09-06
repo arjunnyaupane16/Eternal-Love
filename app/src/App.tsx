@@ -28,8 +28,8 @@ const storySections = [
     title: 'A Uniquely Romantic Expression',
     subtitle: 'OUR STORY',
     content:
-      'Every love story is beautiful, but ours is my favorite. From the moment Smriti and I crossed paths, I knew something extraordinary had begun. Like the Black Baccara rose that blooms in the darkest hours, our love found its light in the most unexpected place. This is the story of us — of laughter, of growth, and of choosing each other every single day.',
-    imageSrc: '/A.jpeg',
+      'Every love story is beautiful, but ours is our favorite. From the moment two souls crossed paths, something extraordinary began. Like the Black Baccara rose that blooms in the darkest hours, love found its light in the most unexpected place. This is a story of laughter, of growth, and of choosing each other every single day.',
+    imageSrc: '/rose-hero.jpg',
     imagePosition: 'right' as const,
     backgroundStyle: 'dark' as const,
   },
@@ -38,7 +38,7 @@ const storySections = [
     title: 'The Beginning',
     subtitle: 'CHAPTER ONE',
     content:
-      'It started with a message, a smile through the screen, a conversation that felt like coming home. In a world full of strangers, Smriti and I found each other. The road to love is never straight, but every twist and turn led us to this moment. Two souls, one journey, infinite possibilities.',
+      'It started with a message, a smile through the screen, a conversation that felt like coming home. In a world full of strangers, two hearts found each other. The road to love is never straight, but every twist and turn led to this moment. Two souls, one journey, infinite possibilities.',
     imageSrc: '/ring-detail.jpg',
     imagePosition: 'left' as const,
     backgroundStyle: 'image' as const,
@@ -48,8 +48,8 @@ const storySections = [
     title: 'The Journey',
     subtitle: 'CHAPTER TWO',
     content:
-      'Together, Smriti and I have walked through storms and sunshine, hand in hand, heart to heart. Every challenge has only made us stronger, every joy has made us grateful. Like petals falling in slow motion, our moments together create a tapestry of memories that will last forever.',
-    imageSrc: '/B.jpeg',
+      'Together, they have walked through storms and sunshine, hand in hand, heart to heart. Every challenge has only made them stronger, every joy has made them grateful. Like petals falling in slow motion, moments together create a tapestry of memories that will last forever.',
+    imageSrc: '/rose-petals.jpg',
     imagePosition: 'right' as const,
     backgroundStyle: 'dark' as const,
   },
@@ -58,11 +58,11 @@ const storySections = [
 // Gallery images with selective zoom effects
 const galleryImages = [
   { src: '/rose-hero.jpg', alt: 'The Rose', span: 'large' as const, zoomEffect: 'ken-burns' as const },
-  { src: '/A.jpeg', alt: 'Our Moment', span: 'medium' as const, zoomEffect: 'slow-zoom' as const },
   { src: '/ring-detail.jpg', alt: 'The Promise', span: 'small' as const, zoomEffect: 'parallax-zoom' as const },
   { src: '/rose-petals.jpg', alt: 'Falling Petals', span: 'small' as const, zoomEffect: 'ken-burns' as const },
   { src: '/pattern-detail.jpg', alt: 'Our Pattern', span: 'medium' as const, zoomEffect: 'slow-zoom' as const },
-  { src: '/B.jpeg', alt: 'Together in Hetauda, Nepal 2025', span: 'large' as const, zoomEffect: 'parallax-zoom' as const },
+  { src: '/rose-leaf-1.jpg', alt: 'First Bloom', span: 'medium' as const, zoomEffect: 'slow-zoom' as const },
+  { src: '/rose-leaf-2.jpg', alt: 'Growing Together', span: 'large' as const, zoomEffect: 'parallax-zoom' as const },
 ];
 
 function HomePage({ startEntrance }: { startEntrance: boolean }) {
@@ -93,7 +93,8 @@ function HomePage({ startEntrance }: { startEntrance: boolean }) {
       <QuoteSection
         id="forever"
         quote="Forever is not a destination, but a journey we choose to take together, one beautiful moment at a time."
-        author="FOR THE GIRL WHO BECAME HOME"
+        author="ETERNAL LOVE"
+        role="A LOVE STORY"
         backgroundImage="/assets/forever-ring.jpg"
       />
     </main>

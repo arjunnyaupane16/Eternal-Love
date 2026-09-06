@@ -111,7 +111,7 @@ export default function ForeverPage() {
 
             {/* Visual Break */}
             <section className="relative h-screen w-full overflow-hidden cinematic-section">
-                <img src="/couple-beach.jpg" alt="Eternal" className="w-full h-full object-cover opacity-40 absolute" />
+                <img src="/rose-petals.jpg" alt="Eternal" className="w-full h-full object-cover opacity-40 absolute" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
                 <div className="absolute inset-0 flex items-center justify-center px-6">
                     <div className="text-center">
@@ -136,14 +136,14 @@ export default function ForeverPage() {
                         </div>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden">
-                        <img src="/A.jpeg" alt="Forever 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/ring-detail.jpg" alt="Forever 2" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
                             <p className="text-sm font-display text-white/80">Timeless Love</p>
                         </div>
                     </div>
                     <div className="relative aspect-[4/5] overflow-hidden col-span-2 md:col-span-1">
-                        <img src="/ring-detail.jpg" alt="Forever 3" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/rose-petals.jpg" alt="Forever 3" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
                             <p className="text-sm font-display text-white/80">Infinite Promise</p>

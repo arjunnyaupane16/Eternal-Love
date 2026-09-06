@@ -8,17 +8,16 @@ gsap.registerPlugin(ScrollTrigger);
 const galleryData = [
     // Existing images
     { src: '/rose-hero.jpg', alt: 'The Rose', span: 'col-span-1 md:col-span-2 row-span-2' },
-    { src: '/A.jpeg', alt: 'Our Moment', span: 'col-span-1 md:col-span-1' },
     { src: '/ring-detail.jpg', alt: 'The Promise', span: 'col-span-1 md:col-span-1' },
     { src: '/rose-petals.jpg', alt: 'Falling Petals', span: 'col-span-1 md:col-span-1' },
     { src: '/pattern-detail.jpg', alt: 'Our Pattern', span: 'col-span-1 md:col-span-1' },
-    { src: '/couple-beach.jpg', alt: 'Together', span: 'col-span-1 md:col-span-2' },
+    { src: '/rose-leaf-1.jpg', alt: 'First Bloom', span: 'col-span-1 md:col-span-2' },
     // Duplicate for "many more images" effect
-    { src: '/A.jpeg', alt: 'Love', span: 'col-span-1' },
+    { src: '/rose-hero.jpg', alt: 'Eternal Love', span: 'col-span-1' },
     { src: '/ring-detail.jpg', alt: 'Forever', span: 'col-span-1' },
-    { src: '/rose-hero.jpg', alt: 'Bloom', span: 'col-span-1 md:col-span-1' },
+    { src: '/rose-petals.jpg', alt: 'Bloom', span: 'col-span-1 md:col-span-1' },
     { src: '/pattern-detail.jpg', alt: 'Texture', span: 'col-span-1' },
-    { src: '/rose-petals.jpg', alt: 'Softness', span: 'col-span-1 md:col-span-2' },
+    { src: '/rose-leaf-2.jpg', alt: 'Softness', span: 'col-span-1 md:col-span-2' },
 ];
 
 export default function FullGalleryPage() {

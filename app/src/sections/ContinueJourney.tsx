@@ -16,14 +16,14 @@ const journeyCards = [
     {
         id: 'the-journey',
         title: 'The Journey',
-        image: '/C.jpeg',
+        image: '/rose-petals.jpg',
         description: 'Every step we took together.',
         path: '/journey'
     },
     {
         id: 'moments',
         title: 'Moments',
-        image: '/A.jpeg',
+        image: '/rose-hero.jpg',
         description: 'Memories etched in time.',
         path: '/moments'
     },
@@ -113,7 +113,7 @@ export default function ContinueJourney() {
                             <img
                                 src={card.image}
                                 alt={card.title}
-                                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${card.image === '/C.jpeg' ? 'object-[center_20%]' : 'object-cover'}`}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20 group-hover:from-black/80 group-hover:via-black/40 transition-all duration-500" />
                         </div>

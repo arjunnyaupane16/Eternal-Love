@@ -303,7 +303,7 @@ export default function Hero({ startEntrance = true }: HeroProps) {
         </div>
         <div ref={bottomTextRef} className="flex items-center gap-6">
           <p className="font-display text-base md:text-lg font-light tracking-[0.3em] text-white/60 animate-names">
-            Arjun
+            Two
           </p>
           <div className="flex flex-col items-center gap-2">
             <span className="label-text text-white/40 tracking-[0.2em]">SCROLL</span>
@@ -312,7 +312,7 @@ export default function Hero({ startEntrance = true }: HeroProps) {
             </div>
           </div>
           <p className="font-display text-base md:text-lg font-light tracking-[0.3em] text-white/60 animate-names">
-            Smriti
+            Hearts
           </p>
         </div>
       </div>

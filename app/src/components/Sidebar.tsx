@@ -292,7 +292,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 >L</span>
               </div>
               <span className="w-[1px] h-4 bg-white/20" />
-              <p className="text-xs text-white/30 tracking-wider">Arjun & Smriti</p>
+              <p className="text-xs text-white/30 tracking-wider">A Beautiful Love Story</p>
             </div>
             <p className="text-xs text-white/20 mt-3 tracking-widest">A LOVE STORY WRITTEN IN ROSES</p>
           </div>

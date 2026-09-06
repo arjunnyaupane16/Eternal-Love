@@ -100,7 +100,7 @@ export default function StatsSection() {
         <p className="font-display text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed text-white/90 italic mb-6">
           "In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."
         </p>
-        <p className="label-text text-rose-400/60 tracking-[0.3em] text-xs">ARJUN & SMRITI</p>
+        <p className="label-text text-rose-400/60 tracking-[0.3em] text-xs">TWO HEARTS, ONE STORY</p>
       </div>
 
       {/* Stats Grid */}

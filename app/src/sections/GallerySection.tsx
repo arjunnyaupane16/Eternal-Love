@@ -28,11 +28,11 @@ const defaultGalleryItems: GalleryItem[] = [
   },
   {
     id: 2,
-    url: '/A.jpeg',
+    url: '/rose-hero.jpg',
     title: "A Moment I'll Never Forget",
     category: 'The Beginning',
-    location: 'Hetauda, Nepal',
-    date: 'Dec 2025',
+    location: 'Eternal Garden',
+    date: 'Forever',
     className: 'md:col-span-2 md:row-span-2'
   },
   {
@@ -55,10 +55,10 @@ const defaultGalleryItems: GalleryItem[] = [
   },
   {
     id: 5,
-    url: '/B.jpeg',
+    url: '/rose-leaf-1.jpg',
     title: 'The Day I Saw Forever',
     category: 'The Journey',
-    location: 'Hetauda, Nepal',
+    location: 'Mountain Vista',
     date: '2025',
     className: 'md:col-span-1 md:row-span-1'
   },

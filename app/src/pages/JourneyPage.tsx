@@ -73,7 +73,7 @@ export default function JourneyPage() {
             <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
                     <img
-                        src="/B.jpeg"
+                        src="/rose-petals.jpg"
                         alt="The Journey"
                         className="w-full h-full object-cover object-[center_20%] opacity-50 scale-110"
                     />
@@ -99,7 +99,7 @@ export default function JourneyPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto items-stretch">
                     <div className="relative h-[600px] overflow-hidden reveal-text">
                         <img
-                            src="/A.jpeg"
+                            src="/rose-hero.jpg"
                             alt="Adventure"
                             className="parallax-img w-full h-[120%] object-cover absolute top-[-10%]"
                         />
@@ -107,7 +107,7 @@ export default function JourneyPage() {
                         <div className="absolute bottom-12 left-12 right-12">
                             <h3 className="text-2xl font-display mb-4">Wanderlust</h3>
                             <p className="text-sm text-white/70 font-light tracking-wide">
-                                From mountain peaks to city streets, every destination was secondary to the person beside me.
+                                From mountain peaks to city streets, every destination was secondary to the person beside them.
                             </p>
                         </div>
                     </div>

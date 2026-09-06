@@ -98,7 +98,7 @@ export default function BeginningPage() {
                 {/* New Photo Grid Section */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-32 content-section">
                     <div className="relative aspect-square overflow-hidden">
-                        <img src="/A.jpeg" alt="First Glance" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
+                        <img src="/rose-hero.jpg" alt="First Glance" className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-black/20" />
                     </div>
                     <div className="relative aspect-square overflow-hidden">
@@ -129,7 +129,7 @@ export default function BeginningPage() {
 
                 {/* New Full Width Photo Section */}
                 <div className="relative h-[60vh] overflow-hidden content-section mb-32">
-                    <img src="/couple-beach.jpg" alt="Together" className="w-full h-full object-cover" />
+                    <img src="/rose-petals.jpg" alt="Together" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                     <div className="absolute bottom-12 left-12 right-12 text-center">
                         <p className="text-2xl md:text-3xl font-display italic text-white/90">

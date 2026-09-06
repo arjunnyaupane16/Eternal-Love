@@ -150,15 +150,15 @@ export default function QuoteSection({
                 <div className="w-8 h-[1px] bg-[#8B1538]/60" />
                 <div className="w-2 h-2 rounded-full bg-[#8B1538]/60 animate-pulse-slow" />
                 <div className="w-8 h-[1px] bg-[#8B1538]/60" />
-                <span className="font-display text-lg md:text-xl text-white/70 tracking-widest animate-fade-glow">Smriti</span>
+                <span className="font-display text-lg md:text-xl text-white/70 tracking-widest animate-fade-glow">the one who became home</span>
               </>
             ) : (
               <>
-                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">A</span>
+                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">E</span>
                 <div className="w-8 h-[1px] bg-[#8B1538]/60" />
                 <span className="text-[#8B1538] text-xl">&</span>
                 <div className="w-8 h-[1px] bg-[#8B1538]/60" />
-                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">S</span>
+                <span className="font-display text-2xl md:text-3xl text-white/70 tracking-widest">L</span>
               </>
             )}
           </div>
